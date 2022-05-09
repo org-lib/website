@@ -1,0 +1,10 @@
+{
+  "name": "mdcg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/shangguanbucai/website.git",
+  "author": "袁德桥 <90999657+shangguanbucai@users.noreply.github.com>",
+  "license": "MIT",
+  "description": "一鍵安裝",
+  "dependencies": {}
+}
