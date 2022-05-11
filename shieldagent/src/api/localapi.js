@@ -59,11 +59,19 @@ function API_LOCAL_UID() {
     requestBaseUrl: 'local'
   })
 }
+function API_UID() {
+  return axios({
+    method: 'get',
+    url: '/data/getuid',
+    requestBaseUrl: 'local'
+  })
+}
 export default {
   API_SETTINGS,
   API_LOCAL,
   API_LOCAL_CONNECTION,
   API_LOCAL_UID,
   API_LOCAL_SETUID,
-  API_LOCAL_OPEN
+  API_LOCAL_OPEN,
+  API_UID
 }

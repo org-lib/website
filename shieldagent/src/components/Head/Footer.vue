@@ -189,6 +189,7 @@ export default defineComponent({
           // 全局登录状态
           localStorage.setItem('Connected', 'false')
           localStorage.setItem('Mail', '')
+          localStorage.setItem('UID', '')
           logout()
           ElMessage('注销成功')
           break

@@ -142,28 +142,20 @@ export default defineComponent({
             localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
           } else {
             localStorage.setItem('UID', '')
-            setTimeout(() => {
-              ElMessage({
-                showClose: true,
-                message: '本地读写权限错误，无法获取本地配置参数uid的值，支付无法进行',
-                type: 'error'
-              })
-            }, 3000)
+            const parmssetus = {
+              user: lparams.mail,
+              passwd: state.user.password,
+              token: ''
+            }
+            API.local.API_LOCAL_SETUID(parmssetus).then(function (res) {
+              console.log('wellcome.')
+            }).catch(function (err) {
+              console.log('user info settings fail:' + err)
+            })
           }
         })
       }
-      if (localStorage.getItem('UID') === '' || localStorage.getItem('UID') === null || localStorage.getItem('UID') === undefined) {
-        localStorage.setItem('UID', '')
-        setTimeout(() => {
-          ElMessage({
-            showClose: true,
-            message: '本地读写权限错误，无法获取本地配置参数uid的值，支付无法进行',
-            type: 'error'
-          })
-        }, 3000)
-        return
-      }
-
+      console.log(localStorage.getItem('UID'))
       // 邮箱发送开始
       state.user.allowCli = true
       // 登录接口
@@ -190,6 +182,15 @@ export default defineComponent({
           }).catch(function (err) {
             console.log('user info settings fail:' + err)
           })
+          if (localStorage.getItem('UID') === '' || localStorage.getItem('UID') === null || localStorage.getItem('UID') === undefined) {
+            API.local.API_LOCAL_UID().then(function (res) {
+              if ((JSON.parse(JSON.stringify(res))).status === 0) {
+                localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
+              } else {
+                localStorage.setItem('UID', '')
+              }
+            })
+          }
           // 延迟跳转
           openFullScreen2()
           setTimeout(() => {

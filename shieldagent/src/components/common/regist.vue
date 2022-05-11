@@ -164,6 +164,16 @@ export default defineComponent({
             type: 'success'
           })
           counter = 0
+          const parmssetus = {
+            user: params.mail,
+            passwd: state.user.password,
+            token: ''
+          }
+          API.local.API_LOCAL_SETUID(parmssetus).then(function (res) {
+            console.log('wellcome.reg')
+          }).catch(function (err) {
+            console.log('user info settings fail:' + err)
+          })
           // 延迟跳转
           openFullScreen2()
           setTimeout(() => {
