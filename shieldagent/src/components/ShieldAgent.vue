@@ -25,6 +25,7 @@ import { defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { ElMessage, ElLoading } from 'element-plus'
 // import formatDate from './common/functionjs/FormatDate'
 import API from '../api'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ShieldAgent',
@@ -110,11 +111,22 @@ export default defineComponent({
         console.log(err)
       })
     }
+    const router = useRouter()
     function control() {
       const param = {
         open: state.close
       }
-      if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Mail') === '' || localStorage.getItem('Mail') === null || localStorage.getItem('Connected') === null) {
+      if (localStorage.getItem('Mail') === '') {
+        // 延迟跳转
+        openFullScreen2()
+        setTimeout(() => {
+          router.push({
+            path: '/login'
+          })
+        }, 2000)
+        return
+      }
+      if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Mail') === null || localStorage.getItem('Connected') === null) {
         ElMessage({
           showClose: true,
           message: '需要购买够套餐，后才能使用(Please to buy)',

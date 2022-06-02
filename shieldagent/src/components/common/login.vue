@@ -145,7 +145,9 @@ export default defineComponent({
             const parmssetus = {
               user: lparams.mail,
               passwd: state.user.password,
-              token: ''
+              token: '',
+              uid: (JSON.parse(JSON.stringify(res))).uid.uid,
+              ip: (JSON.parse(JSON.stringify(res))).uid.ip
             }
             API.local.API_LOCAL_SETUID(parmssetus).then(function (res) {
               console.log('wellcome.')

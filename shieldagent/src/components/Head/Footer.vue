@@ -66,6 +66,8 @@ export default defineComponent({
         if ((JSON.parse(JSON.stringify(res))).status === 0) {
           const parms = {
             mail: (JSON.parse(JSON.stringify(res))).uid.user,
+            uid: (JSON.parse(JSON.stringify(res))).uid.uid,
+            ip: (JSON.parse(JSON.stringify(res))).uid.ip,
             passwd: md5((JSON.parse(JSON.stringify(res))).uid.passwd)
           }
           localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
@@ -112,6 +114,11 @@ export default defineComponent({
           loginstate.DefaultLoginOff()
           logout()
           openFullScreen2()
+          setTimeout(() => {
+            router.push({
+              path: '/login'
+            })
+          }, 2000)
           console.log((JSON.parse(JSON.stringify(res))).msg)
         }
       }).catch(function (err) {
