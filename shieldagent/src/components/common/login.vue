@@ -80,6 +80,7 @@ export default defineComponent({
     })
     function login() {
       var ipaddr = ''
+      var upuid = ''
       const lparams = {
         mail: state.user.email,
         passwd: md5(state.user.password)
@@ -162,7 +163,8 @@ export default defineComponent({
       const lparamsip = {
         mail: state.user.email,
         passwd: md5(state.user.password),
-        ip: ipaddr
+        ip: ipaddr,
+        uid: localStorage.getItem('UID')
       }
       console.log(localStorage.getItem('UID'))
       // 邮箱发送开始
