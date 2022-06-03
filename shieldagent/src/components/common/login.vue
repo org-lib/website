@@ -79,6 +79,7 @@ export default defineComponent({
       }
     })
     function login() {
+      var ipaddr = ''
       const lparams = {
         mail: state.user.email,
         passwd: md5(state.user.password)
@@ -140,6 +141,7 @@ export default defineComponent({
         API.local.API_LOCAL_UID().then(function (res) {
           if ((JSON.parse(JSON.stringify(res))).status === 0) {
             localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
+            ipaddr = (JSON.parse(JSON.stringify(res))).uid.ip
           } else {
             localStorage.setItem('UID', '')
             const parmssetus = {
@@ -157,11 +159,16 @@ export default defineComponent({
           }
         })
       }
+      const lparamsip = {
+        mail: state.user.email,
+        passwd: md5(state.user.password),
+        ip: ipaddr
+      }
       console.log(localStorage.getItem('UID'))
       // 邮箱发送开始
       state.user.allowCli = true
       // 登录接口
-      API.login.API_LOGIN(lparams).then(function(res) {
+      API.login.API_LOGIN(lparamsip).then(function(res) {
         if (JSON.parse(JSON.stringify(res)).status === 0) {
           // 将token本地存储到回话中
           localStorage.setItem('Authorization', JSON.parse(JSON.stringify(res)).data.token)

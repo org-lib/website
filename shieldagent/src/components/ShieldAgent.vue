@@ -116,7 +116,7 @@ export default defineComponent({
       const param = {
         open: state.close
       }
-      if (localStorage.getItem('Mail') === '') {
+      if (localStorage.getItem('Mail') === '' || localStorage.getItem('Mail') === null) {
         // 延迟跳转
         openFullScreen2()
         setTimeout(() => {
@@ -126,10 +126,10 @@ export default defineComponent({
         }, 2000)
         return
       }
-      if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Mail') === null || localStorage.getItem('Connected') === null) {
+      if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Connected') === null) {
         ElMessage({
           showClose: true,
-          message: '需要购买够套餐，后才能使用(Please to buy)',
+          message: '需要购买够套餐，后才能使用。如果您已支付成功，请注销登录、并重新登录',
           type: 'error'
         })
         return

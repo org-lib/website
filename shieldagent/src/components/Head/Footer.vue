@@ -70,8 +70,9 @@ export default defineComponent({
             ip: (JSON.parse(JSON.stringify(res))).uid.ip,
             passwd: md5((JSON.parse(JSON.stringify(res))).uid.passwd)
           }
+          console.log('auid')
+          console.log(parms)
           localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
-          console.log('UID')
           if (parms.mail.length === 0 || parms.passwd.length === 0) {
             openFullScreen2()
             loginstate.DefaultLoginOff()
