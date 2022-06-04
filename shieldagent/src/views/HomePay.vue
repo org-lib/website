@@ -223,11 +223,11 @@ export default defineComponent({
           },
           {
             id: '5',
-            type: '2年版套餐',
+            type: '3年版套餐',
             cash: '现只需￥402.00',
             pay: 402,
-            step: '每2年',
-            alls: '原价2*1660元',
+            step: '每3年',
+            alls: '原价3*1660元',
             color: ''
           }
         ],
