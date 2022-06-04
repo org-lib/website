@@ -242,7 +242,7 @@ export default defineComponent({
       paramsPay.total = state.form.cardlists[params - 1].pay
       ElMessage({
         showClose: true,
-        message: '支付前不能是 连接状态，如果连接请 先断开',
+        message: '支付前不能是 连接的状态，如果连接请 先断开连接',
         type: 'error'
       })
       for (let index = 0; index < state.form.cardlists.length; index++) {

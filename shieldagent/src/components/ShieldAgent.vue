@@ -129,7 +129,7 @@ export default defineComponent({
       if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Connected') === null) {
         ElMessage({
           showClose: true,
-          message: '需要购买够套餐，后才能使用。如果您已支付成功，请注销登录、并重新登录',
+          message: '重新登录。或者刷新页面。。（需要购买够套餐，后才能使用。如果您已购买过，请忽略）',
           type: 'error'
         })
         return
