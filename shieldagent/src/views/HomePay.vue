@@ -240,11 +240,13 @@ export default defineComponent({
       state.form.cardlists[params - 1].color = 'color: #67C23A;'
       state.form.type = params
       paramsPay.total = state.form.cardlists[params - 1].pay
-      ElMessage({
-        showClose: true,
-        message: '支付前不能是 连接的状态，如果连接请 先断开连接',
-        type: 'error'
-      })
+      if (localStorage.getItem('ConnectedNet') === 'true') {
+        ElMessage({
+          showClose: true,
+          message: '请先 断开连接，可能影响支付操作！',
+          type: 'error'
+        })
+      }
       for (let index = 0; index < state.form.cardlists.length; index++) {
         if (index !== (params - 1)) {
           state.form.cardlists[index].color = ''
