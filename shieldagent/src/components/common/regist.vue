@@ -44,7 +44,8 @@ export default defineComponent({
     // timeout
     let counter = 0
     const reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,18}$/
-    const reg2 = /^[\w._]+@(qq|gmail|163|126)\.com(\r\n|\r|\n)?$/
+    // const reg2 = /^[\w._]+@(qq|gmail|163|126|xysl|sina|shouhu)\.com(\r\n|\r|\n)?$/
+    const reg2 = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/
     // 加载效果
     const openFullScreen2 = () => {
       const loading = ElLoading.service({

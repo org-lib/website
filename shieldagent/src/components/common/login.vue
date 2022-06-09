@@ -55,7 +55,8 @@ export default defineComponent({
 
     const fullscreenLoading = ref(false)
     const reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,18}$/
-    const reg2 = /^[\w._]+@(qq|gmail|163|126)\.com(\r\n|\r|\n)?$/
+    // const reg2 = /^[\w._]+@(qq|gmail|163|126|xysl|sina|shouhu)\.(com|cn)(\r\n|\r|\n)?$/
+    const reg2 = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/
     // 初始化路由
     const router = useRouter()
     const state = reactive({
