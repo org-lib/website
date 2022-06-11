@@ -29,6 +29,7 @@ import API from '../../api'
 import { useRouter } from 'vue-router'
 import { ElNotification, ElLoading, ElMessage } from 'element-plus'
 import md5 from 'js-md5'
+import mail from './functionjs/mail'
 export default defineComponent({
   setup() {
     // 加载效果
@@ -56,7 +57,7 @@ export default defineComponent({
     const fullscreenLoading = ref(false)
     const reg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,18}$/
     // const reg2 = /^[\w._]+@(qq|gmail|163|126|xysl|sina|shouhu)\.(com|cn)(\r\n|\r|\n)?$/
-    const reg2 = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/
+    // const reg2 = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/
     // 初始化路由
     const router = useRouter()
     const state = reactive({
@@ -86,7 +87,7 @@ export default defineComponent({
         mail: state.user.email,
         passwd: md5(state.user.password)
       }
-      if (localStorage.getItem('Connected') === 'true') {
+      if (localStorage.getItem('Login') === 'true' && localStorage.getItem('Mail') !== '') {
         ElNotification({
           title: 'Error',
           message: '您已经登录过了',
@@ -107,7 +108,7 @@ export default defineComponent({
         })
         return
       }
-      if (!reg2.test(lparams.mail)) {
+      if (!mail.Mail.test(lparams.mail)) {
         ElNotification({
           title: 'Error',
           message: '邮箱地址不正确',
@@ -145,12 +146,11 @@ export default defineComponent({
             localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
             ipaddr = (JSON.parse(JSON.stringify(res))).uid.ip
           } else {
-            localStorage.setItem('UID', '')
             const parmssetus = {
               user: lparams.mail,
               passwd: state.user.password,
-              token: '',
-              uid: (JSON.parse(JSON.stringify(res))).uid.uid,
+              token: localStorage.getItem('Authorization'),
+              uid: localStorage.getItem('UID'),
               ip: (JSON.parse(JSON.stringify(res))).uid.ip
             }
             API.local.API_LOCAL_SETUID(parmssetus).then(function (res) {
@@ -167,7 +167,6 @@ export default defineComponent({
         ip: ipaddr,
         uid: localStorage.getItem('UID')
       }
-      console.log(localStorage.getItem('UID'))
       // 邮箱发送开始
       state.user.allowCli = true
       // 登录接口
@@ -176,9 +175,8 @@ export default defineComponent({
           // 将token本地存储到回话中
           localStorage.setItem('Authorization', JSON.parse(JSON.stringify(res)).data.token)
           // 全局登录状态
-          localStorage.setItem('Connected', 'true')
+          localStorage.setItem('Login', 'true')
           localStorage.setItem('Mail', lparams.mail)
-          localStorage.setItem('Cancel', 'false')
           ElNotification({
             title: 'Success',
             message: '恭喜你，登录成功',
@@ -198,8 +196,6 @@ export default defineComponent({
             API.local.API_LOCAL_UID().then(function (res) {
               if ((JSON.parse(JSON.stringify(res))).status === 0) {
                 localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
-              } else {
-                localStorage.setItem('UID', '')
               }
             })
           }

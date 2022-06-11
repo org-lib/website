@@ -44,12 +44,8 @@ export default defineComponent({
   setup() {
     // const reflush = inject('reload')
     onMounted(() => {
-      if (localStorage.getItem('Cancel') === 'true') {
+      if (localStorage.getItem('Expire') === 'false') {
         logout()
-        return
-      }
-      if (localStorage.getItem('Connected') === 'true') {
-        logon()
         return
       }
       const openFullScreen2 = () => {
@@ -70,21 +66,16 @@ export default defineComponent({
             ip: (JSON.parse(JSON.stringify(res))).uid.ip,
             passwd: md5((JSON.parse(JSON.stringify(res))).uid.passwd)
           }
-          console.log('auid')
-          console.log(parms)
-          localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
           if (parms.mail.length === 0 || parms.passwd.length === 0) {
             openFullScreen2()
             loginstate.DefaultLoginOff()
             logout()
-            console.log('loginstate length == 0')
             return
           }
           API.login.API_LOGIN(parms).then(function(lres) {
             if (JSON.parse(JSON.stringify(lres)).status !== 0) {
               loginstate.DefaultLoginOff()
               logout()
-              console.log('loginstate status !== 0')
               openFullScreen2()
             } else {
               const parmssetus = {
@@ -100,8 +91,9 @@ export default defineComponent({
               // 将token本地存储到回话中
               localStorage.setItem('Authorization', JSON.parse(JSON.stringify(lres)).data.token)
               // 全局登录状态
-              localStorage.setItem('Connected', 'true')
+              localStorage.setItem('Login', 'true')
               localStorage.setItem('Mail', parms.mail)
+              localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
               logon()
               // router.back()
             }
@@ -135,7 +127,7 @@ export default defineComponent({
       disab: false,
       disab2: true
     })
-    if (localStorage.getItem('Connected') === 'true') {
+    if (localStorage.getItem('Login') === 'true') {
       logon()
     }
     const openFullScreen1 = () => {
@@ -154,9 +146,9 @@ export default defineComponent({
       users.disab = false
       users.disab2 = true
       localStorage.setItem('Authorization', '')
-      localStorage.setItem('Connected', 'false')
+      localStorage.setItem('Login', 'false')
       localStorage.setItem('Mail', '')
-      localStorage.setItem('Cancel', 'true')
+      localStorage.setItem('UID', '')
     }
     function logon() {
       users.logintile = localStorage.getItem('Mail')
@@ -192,12 +184,6 @@ export default defineComponent({
           ElMessage('授权设备使用专业版 还未上线 🤦‍♂️(。・＿・。)ﾉI’m sorry~')
           break
         case 'logout2':
-          // 将token本地存储到回话中
-          localStorage.setItem('Authorization', '')
-          // 全局登录状态
-          localStorage.setItem('Connected', 'false')
-          localStorage.setItem('Mail', '')
-          localStorage.setItem('UID', '')
           logout()
           ElMessage('注销成功')
           break

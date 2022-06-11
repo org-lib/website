@@ -1,5 +1,5 @@
 <template>
-    <span class="logoname">神盾免费版</span>
+    <span class="logoname">啵啵代理</span>
     <span class="logoline"></span>
     <!-- <el-tooltip :content="'不可点击，当前状态: ' + mapvalue" placement="right">
         <el-switch disabled

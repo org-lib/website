@@ -55,7 +55,7 @@
           <div class="spans2">
             <el-input v-show="allowemail" :disabled="true" v-model="form.mail" autocomplete="off" @input="inputon" @change="changeon"></el-input>
           </div>
-          <div class="el-icon-star-on" style="text-align: left;margin-left: 10px;" v-show="allowcode"><el-icon class="span-ilogo"><StarFilled /></el-icon>输入邀请码</div>
+          <div class="el-icon-star-on" style="text-align: left;margin-left: 10px;" v-show="allowcode"><el-icon class="span-ilogo"><StarFilled /></el-icon>输入邀请码(默认可以不填)</div>
           <div class="spans3">
             <el-input v-show="allowcodeinput" v-model="form.code" autocomplete="off" @input="inputcode" @change="changecode"></el-input>
           </div>
@@ -98,6 +98,7 @@ import API from '../api'
 // import QRCode from 'qrcodejs2';
 import QrcodeVue from 'qrcode.vue'
 import { useRouter } from 'vue-router'
+import mail from '../components/common/functionjs/mail'
 export default defineComponent({
   name: 'PayHome',
   props: {},
@@ -122,7 +123,8 @@ export default defineComponent({
       currency: 'CNY',
       description: '波波支付'
     })
-    const reg = /^[\w._]+@(qq|gmail|163|126)\.com(\r\n|\r|\n)?$/
+    // const reg = /^[\w._]+@(qq|gmail|163|126)\.com(\r\n|\r|\n)?$/
+    // const reg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/
     const infoUser = reactive({
       allowemail: false,
       allowcode: false,
@@ -133,7 +135,7 @@ export default defineComponent({
       allowpay: false
     })
     function inputon() {
-      if (!reg.test(state.form.mail)) {
+      if (!mail.Mail.test(state.form.mail)) {
         defaultstep2()
         return
       }
@@ -145,7 +147,7 @@ export default defineComponent({
       }
     }
     function changeon() {
-      if (!reg.test(state.form.mail)) {
+      if (!mail.Mail.test(state.form.mail)) {
         ElNotification({
           title: 'Error',
           message: `${state.form.mail} 邮箱号码不正确，请重新填写~`,
@@ -187,47 +189,38 @@ export default defineComponent({
         cardlists: [
           {
             id: '1',
-            type: '1天版套餐',
-            cash: '现只需￥2.00',
-            pay: 2,
-            step: '每天',
-            alls: '原价27元',
+            type: '按量付费',
+            cash: '现只需￥60+',
+            pay: 61,
+            step: '10GB',
+            alls: '有效期一个月(流量到期归零)',
             color: ''
           },
           {
             id: '2',
-            type: '1周版套餐',
-            cash: '现只需￥10.00',
-            pay: 10,
-            step: '每周',
-            alls: '原价193.7元',
+            type: '按量付费',
+            cash: '现只需￥200+',
+            pay: 212,
+            step: '30GB',
+            alls: '有效期3个月(流量到期归零)',
             color: ''
           },
           {
             id: '3',
-            type: '1月版套餐',
-            cash: '现只需￥20.00',
-            pay: 20,
-            step: '每月',
-            alls: '原价830元',
+            type: '按量付费',
+            cash: '现只需￥340+',
+            pay: 349,
+            step: '60GB',
+            alls: '有效期6个月(流量到期归零)',
             color: ''
           },
           {
             id: '4',
-            type: '1年版套餐',
-            cash: '现只需￥240.00',
-            pay: 240,
-            step: '每年',
-            alls: '原价1660元',
-            color: ''
-          },
-          {
-            id: '5',
-            type: '3年版套餐',
-            cash: '现只需￥402.00',
-            pay: 402,
-            step: '每3年',
-            alls: '原价3*1660元',
+            type: '按量付费',
+            cash: '现只需￥630+',
+            pay: 637,
+            step: '120GB',
+            alls: '有效期12个月(流量到期归零)',
             color: ''
           }
         ],
@@ -311,7 +304,7 @@ export default defineComponent({
     //   infoUser.allowpay = true
     // }
     function handleCommit () {
-      if (!reg.test(state.form.mail)) {
+      if (!mail.Mail.test(state.form.mail)) {
         setTimeout(() => {
           ElMessage(`${state.form.mail} 您还处于未登录状态，无法进行支付操作`)
         }, 2000)

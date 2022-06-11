@@ -16,30 +16,37 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import API from '../../api'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup () {
     const state = reactive({
       percentage: 0,
-      customColor: '#409eff',
-      proces: '当前剩余流量'
-    //   customColors: [
-    //     { color: '#f56c6c', percentage: 20 },
-    //     { color: '#e6a23c', percentage: 40 },
-    //     { color: '#5cb87a', percentage: 60 },
-    //     { color: '#1989fa', percentage: 80 },
-    //     { color: '#6f7ad3', percentage: 100 },
-    //   ],
+      proces: '当前剩余流量',
+      customColors: [
+        { color: '#409eff', percentage: 0 },
+        { color: '#f56c6c', percentage: 20 },
+        { color: '#e6a23c', percentage: 40 },
+        { color: '#5cb87a', percentage: 60 },
+        { color: '#1989fa', percentage: 80 },
+        { color: '#6f7ad3', percentage: 100 }
+      ]
     })
     setbar()
-    setInterval(setbar, 6000)
+    setInterval(setbar, 60000)
     function setbar() {
-      if (localStorage.getItem('Connected') === 'false') {
+      // Cancel 表示用户一个生命周期,代表是否登录过，浏览器会记录登录后 Cancel 的值（只有登录后的用户 Cancel 才等于 false）
+      if (localStorage.getItem('Login') === 'false') {
         return
       }
       const param = {
         mail: localStorage.getItem('Mail')
       }
+      const router = useRouter()
+      state.proces = '等待获取查询...'
+      setTimeout(() => {
+        console.log('等待6秒，后获取流量条')
+      }, 6000)
       API.shield.API_GOBAR(param).then(function (res) {
         console.log('get bar success.')
         if ((JSON.parse(JSON.stringify(res))).status === 0) {
@@ -48,11 +55,18 @@ export default defineComponent({
         }
         if ((JSON.parse(JSON.stringify(res))).status === -1) {
           console.log((JSON.parse(JSON.stringify(res))).msg)
-          localStorage.setItem('Connected', 'false')
+          state.percentage = 0
+          state.proces = (JSON.parse(JSON.stringify(res))).msg
+          localStorage.setItem('Expire', 'true')
+          setTimeout(() => {
+            router.push({
+              path: '/login'
+            })
+          }, 2000)
         }
       }).catch(function (err) {
         state.percentage = 0
-        state.proces = '未开通流量服务'
+        state.proces = '请先登录...'
         console.log(err)
       })
     }

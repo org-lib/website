@@ -80,13 +80,9 @@ export default defineComponent({
           break
       }
     }
-    setInterval(switchoffon, 1500)
+    setInterval(switchoffon, 1100)
     function switchoffon() {
       API.local.API_LOCAL_CONNECTION().then(function (res) {
-        // console.log('switchoffon 获取状态返回值：')
-        // console.log('switchoffon 状态值message：' + JSON.parse(JSON.stringify(res)).message)
-        // console.log('switchoffon 状态值open：' + JSON.parse(JSON.stringify(res)).open)
-        // console.log('switchoffon 状态值status：' + JSON.parse(JSON.stringify(res)).status)
         if ((JSON.parse(JSON.stringify(res))).status === 0) {
           if ((JSON.parse(JSON.stringify(res))).open === 1) {
             localStorage.setItem('ConnectedNet', 'true')
@@ -100,7 +96,6 @@ export default defineComponent({
             state.imgPath = 'https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit/shield4/start.png'
           }
         }
-        // console.log('switchoffon 获取状态返回值结束')
       }).catch(function (err) {
         ElMessage({
           showClose: true,
@@ -126,46 +121,51 @@ export default defineComponent({
         }, 2000)
         return
       }
-      if (localStorage.getItem('Connected') === 'false' || localStorage.getItem('Connected') === null) {
+      if (localStorage.getItem('Login') === 'false' || localStorage.getItem('Login') === null) {
         ElMessage({
           showClose: true,
-          message: '重新登录。或者刷新页面。。（需要购买够套餐，后才能使用。如果您已购买过，请忽略）',
+          message: '请重新登录。。（需要购买够套餐，后才能使用。如果您已购买过，请忽略）',
           type: 'error'
         })
         return
       }
-      // console.log('control 获取状态返回值：')
       openFullScreen2()
       setTimeout(() => {
         API.local.API_LOCAL_OPEN(param).then(function (res) {
-          // console.log((JSON.parse(JSON.stringify(res))).open)
-          // console.log('control 状态值message：' + JSON.parse(JSON.stringify(res)).message)
-          // console.log('control 状态值open：' + JSON.parse(JSON.stringify(res)).open)
-          // console.log('control 状态值status：' + JSON.parse(JSON.stringify(res)).status)
           if ((JSON.parse(JSON.stringify(res))).status === 0) {
             if ((JSON.parse(JSON.stringify(res))).open === 1) {
               localStorage.setItem('ConnectedNet', 'true')
+              localStorage.setItem('Login', 'true')
               state.close = false
               state.imgPath = 'https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit/shield4/end-red.png'
               state.conTime = '点击断开网络'
             } else {
               localStorage.setItem('ConnectedNet', 'false')
+              localStorage.setItem('Login', 'false')
               state.close = true
               state.imgPath = 'https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit/shield4/start.png'
               state.conTime = '点击连接网络'
+              ElMessage({
+                showClose: true,
+                message: '系统异常' + (JSON.parse(JSON.stringify(res))).message,
+                type: 'error'
+              })
             }
+          } else {
+            ElMessage({
+              showClose: true,
+              message: (JSON.parse(JSON.stringify(res))).message,
+              type: 'error'
+            })
           }
-          // console.log('control 获取状态返回值结束')
         }).catch(function (err) {
           ElMessage({
             showClose: true,
             message: '系统异常' + err,
             type: 'error'
           })
-          // console.log(err)
         })
       }, 3000)
-      // console.log('switch....')
     }
     return {
       ...toRefs(state),

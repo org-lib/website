@@ -55,7 +55,7 @@ function Auth() {
           // 将token本地存储到回话中
           localStorage.setItem('Authorization', JSON.parse(JSON.stringify(lres)).data.token)
           // 全局登录状态
-          localStorage.setItem('Connected', 'true')
+          localStorage.setItem('Login', 'true')
         }
       }).catch(function(err) {
         DefaultLoginOn()
@@ -96,7 +96,7 @@ function DefaultLoginOn() {
   // 将token本地存储到回话中
   localStorage.setItem('Authorization', '')
   // 全局登录状态
-  localStorage.setItem('Connected', 'false')
+  localStorage.setItem('Login', 'false')
 }
 
 export default {
