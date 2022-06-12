@@ -79,10 +79,10 @@ export default defineComponent({
           // if (localStorage.getItem('Login') === 'true') {
           logon()
           // }
-          if (localStorage.getItem('Expire') === 'false') {
-            logout()
-            return
-          }
+          // if (localStorage.getItem('Expire') === 'false') {
+          //   logout()
+          //   return
+          // }
           API.login.API_LOGIN(parms).then(function(lres) {
             if (JSON.parse(JSON.stringify(lres)).status !== 0) {
               loginstate.DefaultLoginOff()
@@ -103,7 +103,7 @@ export default defineComponent({
               localStorage.setItem('Authorization', JSON.parse(JSON.stringify(lres)).data.token)
               // 全局登录状态
               localStorage.setItem('Login', 'true')
-              // localStorage.setItem('Expire', 'false')
+              localStorage.setItem('Expire', 'false')
               localStorage.setItem('Mail', parms.mail)
               localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
               logon()

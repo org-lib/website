@@ -193,13 +193,6 @@ export default defineComponent({
           }).catch(function (err) {
             console.log('user info settings fail:' + err)
           })
-          if (localStorage.getItem('UID') === '' || localStorage.getItem('UID') === null || localStorage.getItem('UID') === undefined) {
-            API.local.API_LOCAL_UID().then(function (res) {
-              if ((JSON.parse(JSON.stringify(res))).status === 0) {
-                localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
-              }
-            })
-          }
           // 延迟跳转
           openFullScreen2()
           setTimeout(() => {

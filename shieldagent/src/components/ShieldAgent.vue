@@ -163,14 +163,6 @@ export default defineComponent({
               message: (JSON.parse(JSON.stringify(res))).message,
               type: 'error'
             })
-            if ((JSON.parse(JSON.stringify(res))).status === -1) {
-              localStorage.setItem('Expire', 'true')
-              setTimeout(() => {
-                router.push({
-                  path: '/login'
-                })
-              }, 1000)
-            }
           }
         }).catch(function (err) {
           ElMessage({
