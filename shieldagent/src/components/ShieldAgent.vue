@@ -5,16 +5,16 @@
     <el-button class="switchx" circle @click="control"><img alt="Shield logo" :src="imgPath"></el-button>
     <h1 class="ShieldTime">{{ conTime }}</h1>
     <div class="products">
-      <h1>购买神盾专业版</h1>
+      <h1>购买啵啵代理</h1>
       <p class="payitem">
         <!-- <a href="https://www.shendunju.com/" target="_blank" rel="noopener norefferrer">升级到神盾专业版</a> -->
         <!-- <router-link tag="a" target="_blank" :to="{name:'List',query:{id: 'val'}}">详情页</router-link> -->
-        <router-link class="routelink" to="/upgrade">续费(或升级)神盾专业版</router-link>
+        <router-link class="routelink" to="/upgrade">续费(或升级)</router-link>
       </p>
       <p>
         <router-link class="routelogin" to="/notfound">网上打折购买了专业版激活码？点此升级</router-link>
       </p>
-      <div class="tips"><span>新功能即将上线，敬请期待！</span></div>
+      <div class="tips"><a href="https://github.com/org-lib/tz" target="_blank">无法使用?无法购买支付？升级到新版本</a></div>
     </div>
   </div>
   <router-view/>
@@ -124,9 +124,15 @@ export default defineComponent({
       if (localStorage.getItem('Login') === 'false' || localStorage.getItem('Login') === null) {
         ElMessage({
           showClose: true,
-          message: '请重新登录。。（需要购买够套餐，后才能使用。如果您已购买过，请忽略）',
+          message: '您的账户未登录',
           type: 'error'
         })
+        openFullScreen2()
+        setTimeout(() => {
+          router.push({
+            path: '/login'
+          })
+        }, 2000)
         return
       }
       openFullScreen2()
@@ -157,6 +163,14 @@ export default defineComponent({
               message: (JSON.parse(JSON.stringify(res))).message,
               type: 'error'
             })
+            if ((JSON.parse(JSON.stringify(res))).status === -1) {
+              localStorage.setItem('Expire', 'true')
+              setTimeout(() => {
+                router.push({
+                  path: '/login'
+                })
+              }, 1000)
+            }
           }
         }).catch(function (err) {
           ElMessage({
@@ -211,9 +225,9 @@ img{
   color: white;
   border-radius: 10px;
   align-items: center;
-  width: 20%;
+  width: 40%;
   padding: 0px;
-  background: #212121 !important;
+  background: #f1efef !important;
   margin: auto;
   line-height: 40px;
 }

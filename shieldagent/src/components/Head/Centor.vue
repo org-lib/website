@@ -35,7 +35,7 @@ export default defineComponent({
     setbar()
     setInterval(setbar, 60000)
     function setbar() {
-      // Cancel 表示用户一个生命周期,代表是否登录过，浏览器会记录登录后 Cancel 的值（只有登录后的用户 Cancel 才等于 false）
+      // Login 表示用户一个生命周期,代表是否登录过，浏览器会记录登录后 Login 的值（只有登录后的用户 Login 才等于 true）
       if (localStorage.getItem('Login') === 'false') {
         return
       }
@@ -48,10 +48,10 @@ export default defineComponent({
         console.log('等待6秒，后获取流量条')
       }, 6000)
       API.shield.API_GOBAR(param).then(function (res) {
-        console.log('get bar success.')
         if ((JSON.parse(JSON.stringify(res))).status === 0) {
           state.percentage = (JSON.parse(JSON.stringify(res))).value
           state.proces = (JSON.parse(JSON.stringify(res))).msg
+          localStorage.setItem('Expire', 'false')
         }
         if ((JSON.parse(JSON.stringify(res))).status === -1) {
           console.log((JSON.parse(JSON.stringify(res))).msg)

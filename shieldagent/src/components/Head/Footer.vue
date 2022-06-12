@@ -43,11 +43,15 @@ export default defineComponent({
   },
   setup() {
     // const reflush = inject('reload')
+    const router = useRouter()
+    const users = reactive({
+      logintile: '登录(升级到专业版本)',
+      allow: '授权设备使用专业版',
+      disab: false,
+      disab2: true
+    })
+    setInterval(reflushUser, 100)
     onMounted(() => {
-      if (localStorage.getItem('Expire') === 'false') {
-        logout()
-        return
-      }
       const openFullScreen2 = () => {
         const loading = ElLoading.service({
           lock: true,
@@ -72,6 +76,13 @@ export default defineComponent({
             logout()
             return
           }
+          // if (localStorage.getItem('Login') === 'true') {
+          logon()
+          // }
+          if (localStorage.getItem('Expire') === 'false') {
+            logout()
+            return
+          }
           API.login.API_LOGIN(parms).then(function(lres) {
             if (JSON.parse(JSON.stringify(lres)).status !== 0) {
               loginstate.DefaultLoginOff()
@@ -92,6 +103,7 @@ export default defineComponent({
               localStorage.setItem('Authorization', JSON.parse(JSON.stringify(lres)).data.token)
               // 全局登录状态
               localStorage.setItem('Login', 'true')
+              // localStorage.setItem('Expire', 'false')
               localStorage.setItem('Mail', parms.mail)
               localStorage.setItem('UID', (JSON.parse(JSON.stringify(res))).uid.uid)
               logon()
@@ -120,16 +132,6 @@ export default defineComponent({
         console.log(err)
       })
     })
-    const router = useRouter()
-    const users = reactive({
-      logintile: '登录(升级到专业版本)',
-      allow: '授权设备使用专业版',
-      disab: false,
-      disab2: true
-    })
-    if (localStorage.getItem('Login') === 'true') {
-      logon()
-    }
     const openFullScreen1 = () => {
       const loading = ElLoading.service({
         lock: true,
@@ -149,6 +151,7 @@ export default defineComponent({
       localStorage.setItem('Login', 'false')
       localStorage.setItem('Mail', '')
       localStorage.setItem('UID', '')
+      localStorage.setItem('Expire', 'true')
     }
     function logon() {
       users.logintile = localStorage.getItem('Mail')
@@ -156,8 +159,14 @@ export default defineComponent({
       users.disab = true
       users.disab2 = false
     }
+    function reflushUser() {
+      if (localStorage.getItem('Expire') === 'true') {
+        logout()
+        return
+      }
+      logon()
+    }
     const FooterCommand = (command: any) => {
-      console.log('选择了，，，，，')
       if (!command) {
         ElMessage(`${command} 菜单选项缺少command属性`)
         return

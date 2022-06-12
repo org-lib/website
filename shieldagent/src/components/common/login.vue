@@ -90,7 +90,7 @@ export default defineComponent({
       if (localStorage.getItem('Login') === 'true' && localStorage.getItem('Mail') !== '') {
         ElNotification({
           title: 'Error',
-          message: '您已经登录过了',
+          message: '按F5刷新页面',
           type: 'error'
         })
         setTimeout(() => {
@@ -176,7 +176,8 @@ export default defineComponent({
           localStorage.setItem('Authorization', JSON.parse(JSON.stringify(res)).data.token)
           // 全局登录状态
           localStorage.setItem('Login', 'true')
-          localStorage.setItem('Mail', lparams.mail)
+          localStorage.setItem('Mail', lparamsip.mail)
+          localStorage.setItem('Expire', 'false')
           ElNotification({
             title: 'Success',
             message: '恭喜你，登录成功',
