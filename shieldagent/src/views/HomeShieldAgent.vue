@@ -52,7 +52,7 @@
 
     <!-- <el-main>
       <img alt="Shield logo" src="https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit%2Fshield%2F128.png">
-      <ShieldAgent msg="购买神盾专业版"/>
+      <ShieldAgent msg="购买专业版"/>
       <router-view/>
 
     </el-main> -->

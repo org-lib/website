@@ -88,11 +88,6 @@ export default defineComponent({
         passwd: md5(state.user.password)
       }
       if (localStorage.getItem('Login') === 'true' && localStorage.getItem('Mail') !== '') {
-        ElNotification({
-          title: 'Error',
-          message: '按F5刷新页面',
-          type: 'error'
-        })
         setTimeout(() => {
           router.push({
             path: '/'

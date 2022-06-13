@@ -141,21 +141,14 @@ export default defineComponent({
           if ((JSON.parse(JSON.stringify(res))).status === 0) {
             if ((JSON.parse(JSON.stringify(res))).open === 1) {
               localStorage.setItem('ConnectedNet', 'true')
-              localStorage.setItem('Login', 'true')
               state.close = false
               state.imgPath = 'https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit/shield4/end-red.png'
               state.conTime = '点击断开网络'
             } else {
               localStorage.setItem('ConnectedNet', 'false')
-              localStorage.setItem('Login', 'false')
               state.close = true
               state.imgPath = 'https://product-1256865522.cos.ap-shanghai.myqcloud.com/websit/shield4/start.png'
               state.conTime = '点击连接网络'
-              ElMessage({
-                showClose: true,
-                message: '系统异常' + (JSON.parse(JSON.stringify(res))).message,
-                type: 'error'
-              })
             }
           } else {
             ElMessage({

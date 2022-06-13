@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside width="200px">
-      <span class="logoforpaytitle">神盾专业版</span>
+      <span class="logoforpaytitle">啵啵专业版</span>
       <el-container class="detaillist">
         <el-row>
           <!-- <el-coll icon="el-icon-check yes"></el-coll> -->
@@ -189,35 +189,53 @@ export default defineComponent({
         cardlists: [
           {
             id: '1',
-            type: '按量付费',
-            cash: '现只需￥60+',
+            type: '即用即付',
+            cash: '10元起充值',
+            pay: 30,
+            step: '1元10MB',
+            alls: '用多少扣多少',
+            color: ''
+          },
+          {
+            id: '2',
+            type: '即用即付',
+            cash: '1000元起充值',
+            pay: 1000,
+            step: '赠送50GB',
+            alls: '不限时长,1TB用完为止',
+            color: ''
+          },
+          {
+            id: '3',
+            type: '包月',
+            cash: '现只需￥61',
             pay: 61,
             step: '10GB',
             alls: '有效期一个月(流量到期归零)',
             color: ''
           },
           {
-            id: '2',
-            type: '按量付费',
-            cash: '现只需￥200+',
-            pay: 212,
+            id: '4',
+            type: '按季度',
+            cash: '现只需￥181',
+            pay: 181,
             step: '30GB',
             alls: '有效期3个月(流量到期归零)',
             color: ''
           },
           {
-            id: '3',
-            type: '按量付费',
-            cash: '现只需￥340+',
+            id: '5',
+            type: '半年套餐',
+            cash: '现只需￥349',
             pay: 349,
             step: '60GB',
             alls: '有效期6个月(流量到期归零)',
             color: ''
           },
           {
-            id: '4',
-            type: '按量付费',
-            cash: '现只需￥630+',
+            id: '6',
+            type: '包年',
+            cash: '现只需￥637',
             pay: 637,
             step: '120GB',
             alls: '有效期12个月(流量到期归零)',
