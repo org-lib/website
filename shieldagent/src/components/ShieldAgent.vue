@@ -14,7 +14,7 @@
       <p>
         <router-link class="routelogin" to="/notfound">网上打折购买了专业版激活码？点此升级</router-link>
       </p>
-      <div class="tips"><a href="https://github.com/org-lib/tz" target="_blank">无法使用?无法购买支付？升级到新版本</a></div>
+      <div class="tips"><a href="https://github.com/org-lib/tz" target="_blank">无法使用?无法购买\支付？升级到新版本</a></div>
     </div>
   </div>
   <router-view/>

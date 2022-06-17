@@ -1,7 +1,7 @@
 <template>
   <div class="demo-progress">
     <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage" :color="customColor" style="margin-top: 20px;">
-        <span>{{ proces }}</span>
+      <span style="color:#FF0000;">{{ expire }}</span>--><span style="color:#FF0000;">{{ upload }}</span>--><span style="color:#FF0000;">{{ down }}</span>
     </el-progress>
   </div>
 </template>
@@ -22,7 +22,10 @@ export default defineComponent({
   setup () {
     const state = reactive({
       percentage: 0,
-      proces: '当前剩余流量',
+      proces: '[当前流量使用情况]',
+      expire: '过期时间：',
+      upload: '已上传：',
+      down: '已下载：',
       customColors: [
         { color: '#409eff', percentage: 0 },
         { color: '#f56c6c', percentage: 20 },
@@ -51,6 +54,9 @@ export default defineComponent({
         if ((JSON.parse(JSON.stringify(res))).status === 0) {
           state.percentage = (JSON.parse(JSON.stringify(res))).value
           state.proces = (JSON.parse(JSON.stringify(res))).msg
+          state.expire = (JSON.parse(JSON.stringify(res))).expire
+          state.upload = '已上传(MB)：' + (JSON.parse(JSON.stringify(res))).upload
+          state.down = '已下载(MB)：' + (JSON.parse(JSON.stringify(res))).down
           localStorage.setItem('Expire', 'false')
         }
         if ((JSON.parse(JSON.stringify(res))).status === -1) {
